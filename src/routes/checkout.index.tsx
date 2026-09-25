@@ -131,8 +131,8 @@ function Page() {
       if (quote && !quote.deliveryAvailable) { setErrors({ city: `We don't deliver to ${addr.city} right now.` }); return; }
     }
     if (step === 1) {
-      if (payment === "cod" && !config?.codEnabled) { toast.error("Cash on Delivery is unavailable.");
-      if (payment === "card" && !config?.cardEnabled) { toast.error("Card payment is unavailable.");
+      if (payment === "cod" && !config?.codEnabled) { toast.error("Cash on Delivery is unavailable."); return; }
+      if (payment === "card" && !config?.cardEnabled) { toast.error("Card payment is unavailable."); return; }
     }
     setStep(step + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -146,8 +146,8 @@ function Page() {
 
   const submit = async () => {
     if (!validateAddress()) { setStep(0); return; }
-    if (!agree) { toast.error("Please accept the terms to continue.");
-    if (quote?.issues.length) { toast.error(quote.issues.join(" "));
+    if (!agree) { toast.error("Please accept the terms to continue."); return; }
+    if (quote?.issues.length) { toast.error(quote.issues.join(" ")); return; }
     setPlacing(true);
     try {
       const r = await placeFn({ data: { items: itemsKey, customer: addressSchema.parse(addr), couponCode: coupon, paymentMethod: payment, idempotencyKey: idem.current, origin: window.location.origin } });
