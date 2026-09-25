@@ -13,7 +13,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/checkout/")({
-  validateSearch: (s: Record<string, unknown>) => ({ cancelled: s.cancelled ? 1 : undefined }),
+  validateSearch: (s: Record<string, unknown>): { cancelled?: number } => (s.cancelled ? { cancelled: 1 } : {}),
   head: () => ({
     meta: [
       { title: "Checkout — Play Town" },
