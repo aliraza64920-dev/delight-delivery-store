@@ -14,7 +14,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CartRouteImport } from './routes/cart'
-import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as OrderConfirmationRouteImport } from './routes/order-confirmation'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundRouteImport } from './routes/refund'
 import { Route as ShippingRouteImport } from './routes/shipping'
@@ -22,6 +22,8 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -51,9 +53,9 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutRoute = CheckoutRouteImport.update({
-  id: '/checkout',
-  path: '/checkout',
+const OrderConfirmationRoute = OrderConfirmationRouteImport.update({
+  id: '/order-confirmation',
+  path: '/order-confirmation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -91,6 +93,16 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
+  id: '/checkout/',
+  path: '/checkout/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/checkout/return',
+  path: '/checkout/return',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsSlugRoute = ProductsSlugRouteImport.update({
   id: '/products/$slug',
   path: '/products/$slug',
@@ -114,7 +126,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -122,7 +134,9 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -132,7 +146,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -140,7 +154,9 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/checkout': typeof CheckoutIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -151,7 +167,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
-  '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/privacy': typeof PrivacyRoute
   '/refund': typeof RefundRoute
   '/shipping': typeof ShippingRoute
@@ -159,7 +175,9 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/checkout/': typeof CheckoutIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -171,7 +189,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cart'
-    | '/checkout'
+    | '/order-confirmation'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -179,7 +197,9 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/wishlist'
+    | '/checkout/return'
     | '/products/$slug'
+    | '/checkout/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -189,7 +209,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cart'
-    | '/checkout'
+    | '/order-confirmation'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -197,7 +217,9 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/wishlist'
+    | '/checkout/return'
     | '/products/$slug'
+    | '/checkout'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   id:
@@ -207,7 +229,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/cart'
-    | '/checkout'
+    | '/order-confirmation'
     | '/privacy'
     | '/refund'
     | '/shipping'
@@ -215,7 +237,9 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/wishlist'
+    | '/checkout/return'
     | '/products/$slug'
+    | '/checkout/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -226,7 +250,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
-  CheckoutRoute: typeof CheckoutRoute
+  OrderConfirmationRoute: typeof OrderConfirmationRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundRoute: typeof RefundRoute
   ShippingRoute: typeof ShippingRoute
@@ -234,7 +258,9 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TrackRoute: typeof TrackRoute
   WishlistRoute: typeof WishlistRoute
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
+  CheckoutIndexRoute: typeof CheckoutIndexRoute
   ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -276,11 +302,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout': {
-      id: '/checkout'
-      path: '/checkout'
-      fullPath: '/checkout'
-      preLoaderRoute: typeof CheckoutRouteImport
+    '/order-confirmation': {
+      id: '/order-confirmation'
+      path: '/order-confirmation'
+      fullPath: '/order-confirmation'
+      preLoaderRoute: typeof OrderConfirmationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -332,6 +358,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/': {
+      id: '/checkout/'
+      path: '/checkout'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof CheckoutIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/checkout/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$slug': {
       id: '/products/$slug'
       path: '/products/$slug'
@@ -362,7 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   CartRoute: CartRoute,
-  CheckoutRoute: CheckoutRoute,
+  OrderConfirmationRoute: OrderConfirmationRoute,
   PrivacyRoute: PrivacyRoute,
   RefundRoute: RefundRoute,
   ShippingRoute: ShippingRoute,
@@ -370,7 +410,9 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TrackRoute: TrackRoute,
   WishlistRoute: WishlistRoute,
+  CheckoutReturnRoute: CheckoutReturnRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  CheckoutIndexRoute: CheckoutIndexRoute,
   ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
