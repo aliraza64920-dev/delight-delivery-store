@@ -1,85 +1,147 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Banknote, Truck } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import poolsAsset from "@/assets/kids-inflatable-pools.jpeg.asset.json";
+import stitchAsset from "@/assets/stitch-villa-playset.jpeg.asset.json";
+import rcCarAsset from "@/assets/rapidity-rc-car.jpeg.asset.json";
 import { cn } from "@/lib/utils";
 
-const TOYS = [
-  { e: "🧸", bg: "bg-blush", x: -28, y: -18, dx: -10, dy: 30, r: -12 },
-  { e: "🚗", bg: "bg-baby", x: 26, y: -22, dx: 14, dy: 26, r: 10 },
-  { e: "🧩", bg: "bg-butter", x: -24, y: 22, dx: -16, dy: -24, r: 14 },
-  { e: "🎎", bg: "bg-lilac", x: 28, y: 20, dx: 12, dy: -30, r: -10 },
-  { e: "🎁", bg: "bg-peach", x: 0, y: 34, dx: 0, dy: -20, r: 6 },
-];
+type HeroPanel = {
+  kicker: string;
+  title: ReactNode;
+  body: string;
+  cta: string;
+  search: Record<string, string>;
+  image: string;
+  imageAlt: string;
+  backdrop: string;
+};
 
-const PANELS = [
-  { kicker: "Play Town", title: "Find Something They'll Love.", body: "Fun, creative and exciting toys for every age, every occasion and every budget." },
-  { kicker: "For every age", title: "From first rattles to big builds.", body: "Hand-picked toys for babies, toddlers, kids and teens — sorted so gifting is easy." },
-  { kicker: "Delivered across Pakistan", title: "Cash on Delivery or secure card.", body: "Fast nationwide delivery, easy returns and friendly WhatsApp support." },
+const PANELS: HeroPanel[] = [
+  {
+    kicker: "Summer splash season",
+    title: <>Cool down with <span className="text-hotpink">pool fun!</span></>,
+    body: "Bright inflatable pools made for splashy afternoons, little swimmers and endless summer smiles.",
+    cta: "Shop Pools & Water Toys",
+    search: { category: "Outdoor & Sports" },
+    image: poolsAsset.url,
+    imageAlt: "Pink and green inflatable pools for children",
+    backdrop: "from-baby via-lilac to-butter",
+  },
+  {
+    kicker: "Make-believe magic",
+    title: <>Build a little world of <span className="text-hotpink">big stories.</span></>,
+    body: "A colourful Stitch villa playset packed with rooms, characters and creative adventures to dream up.",
+    cta: "Shop Pretend Play",
+    search: { category: "Dolls & Dollhouses" },
+    image: stitchAsset.url,
+    imageAlt: "Stitch villa dollhouse playset with six figures",
+    backdrop: "from-blush via-lilac to-baby",
+  },
+  {
+    kicker: "Race season is here",
+    title: <>Fast, fearless & <span className="text-hotpink">Pakistan-ready.</span></>,
+    body: "A rugged remote-control racer with chunky tyres, sharp handling and plenty of off-road attitude.",
+    cta: "Shop RC Cars",
+    search: { category: "Vehicles & RC" },
+    image: rcCarAsset.url,
+    imageAlt: "Blue and green Rapidity remote-control off-road car",
+    backdrop: "from-butter via-lilac to-baby",
+  },
 ];
 
 export function ScrollHero() {
-  const ref = useRef<HTMLElement>(null);
-  const [p, setP] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let raf = 0;
+    let frame = 0;
     const update = () => {
-      raf = 0;
-      const el = ref.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const total = el.offsetHeight - window.innerHeight;
-      setP(Math.min(1, Math.max(0, -r.top / Math.max(total, 1))));
+      frame = 0;
+      const section = sectionRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const scrollable = section.offsetHeight - window.innerHeight;
+      setProgress(Math.min(1, Math.max(0, -rect.top / Math.max(scrollable, 1))));
     };
-    const on = () => { if (!raf) raf = requestAnimationFrame(update); };
+    const requestUpdate = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener("scroll", on, { passive: true });
-    window.addEventListener("resize", on);
-    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); cancelAnimationFrame(raf); };
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
-  const panelOpacity = (i: number) => {
-    const c = (i + 0.5) / PANELS.length;
-    const d = Math.abs(p - c) * PANELS.length;
-    if (i === 0 && p < c) return 1;
-    if (i === PANELS.length - 1 && p > c) return 1;
-    return Math.max(0, 1 - Math.max(0, d - 0.25) * 2.2);
-  };
+  const activePanel = Math.min(PANELS.length - 1, Math.floor(progress * PANELS.length));
 
   return (
-    <section ref={ref} className="relative h-[260vh] bg-gradient-to-b from-baby/50 via-background to-background">
-      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
-        <div className="pointer-events-none absolute left-0 top-0 h-1 bg-primary transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
-        <div className="mx-auto grid w-full max-w-[1180px] items-center gap-6 px-5 md:grid-cols-[1.05fr_1fr]">
-          <div className="relative order-2 min-h-[240px] text-center md:order-1 md:text-left">
-            {PANELS.map((panel, i) => {
-              const o = panelOpacity(i);
-              return (
-                <div key={i} className="absolute inset-0 flex flex-col justify-center" style={{ opacity: o, transform: `translateY(${(1 - o) * 16}px)`, pointerEvents: o > 0.5 ? "auto" : "none" }} aria-hidden={o < 0.5}>
-                  <span className="mb-2 text-xs font-extrabold uppercase tracking-[0.2em] text-muted-foreground">{panel.kicker}</span>
-                  {i === 0 ? <h1 className="text-[clamp(2.1rem,5vw,3.4rem)] leading-tight">{panel.title}</h1> : <h2 className="text-[clamp(2rem,4.6vw,3.1rem)] leading-tight">{panel.title}</h2>}
-                  <p className="mx-auto mb-6 mt-3 max-w-md text-lg text-muted-foreground md:mx-0">{panel.body}</p>
-                  <div className="flex flex-wrap justify-center gap-3 md:justify-start">
-                    <Link to="/shop" className="pill-btn pill-primary">Shop Toys</Link>
-                    <a href="#finder" className="pill-btn pill-secondary">Find a Gift</a>
+    <section ref={sectionRef} className="relative h-[285vh] px-3 pt-3 sm:px-5">
+      <div className="sticky top-[90px] h-[calc(100svh-90px)] min-h-[590px] max-h-[760px] py-3 lg:top-[107px] lg:h-[calc(100svh-107px)]">
+        <div className="relative mx-auto h-full max-w-[1240px] overflow-hidden rounded-[var(--radius)] bg-card shadow-soft">
+          {PANELS.map((panel, index) => {
+            const isActive = index === activePanel;
+            return (
+              <article
+                key={panel.kicker}
+                className={cn(
+                  "absolute inset-0 grid bg-gradient-to-br px-6 py-8 transition-all duration-700 ease-out md:grid-cols-[1.02fr_0.98fr] md:items-center md:gap-10 md:px-12 lg:px-16",
+                  panel.backdrop,
+                  isActive ? "translate-y-0 opacity-100" : index < activePanel ? "-translate-y-5 opacity-0" : "translate-y-5 opacity-0",
+                )}
+                aria-hidden={!isActive}
+              >
+                <div className="z-10 flex flex-col justify-center pt-3 md:pt-0">
+                  <span className="mb-4 w-fit rounded-full bg-card px-3 py-1.5 text-xs font-extrabold uppercase text-hotpink shadow-soft">
+                    •&nbsp; {panel.kicker}
+                  </span>
+                  {index === 0 ? (
+                    <h1 className="max-w-[620px] text-[2.35rem] leading-[1.02] sm:text-5xl lg:text-6xl">{panel.title}</h1>
+                  ) : (
+                    <h2 className="max-w-[620px] text-[2.35rem] leading-[1.02] sm:text-5xl lg:text-6xl">{panel.title}</h2>
+                  )}
+                  <p className="mt-4 max-w-[570px] text-base leading-relaxed text-muted-foreground sm:text-lg">{panel.body}</p>
+                  <Link to="/shop" search={panel.search} className="pill-btn pill-primary mt-6 w-fit">
+                    {panel.cta}<ArrowRight className="size-4" />
+                  </Link>
+
+                  <dl className="mt-7 grid grid-cols-4 gap-3 border-t border-foreground/10 pt-5 sm:mt-9 sm:gap-5">
+                    {[["1,200+", "Toys in stock"], ["40+", "Top brands"], ["25k+", "Happy families"], ["4.8★", "Customer rating"]].map(([value, label]) => (
+                      <div key={label}>
+                        <dt className="font-display text-xl font-extrabold sm:text-2xl">{value}</dt>
+                        <dd className="mt-1 text-[0.65rem] font-semibold leading-tight text-muted-foreground sm:text-xs">{label}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <div className="relative mt-6 min-h-0 md:mt-0 md:h-[82%]">
+                  <div className="absolute inset-0 overflow-hidden rounded-[var(--radius)] bg-card shadow-lift">
+                    <img src={panel.image} alt={panel.imageAlt} className="h-full w-full object-contain p-4 sm:p-7" />
+                  </div>
+                  <div className="absolute -left-3 top-5 flex items-center gap-2 rounded-xl bg-card px-3 py-2 shadow-lift sm:-left-5">
+                    <span className="grid size-8 place-items-center rounded-lg bg-blush"><Truck className="size-4 text-hotpink" /></span>
+                    <span><strong className="block text-xs text-hotpink">Free delivery</strong><small className="text-muted-foreground">over Rs. 2,500</small></span>
+                  </div>
+                  <div className="absolute -bottom-3 right-3 flex items-center gap-2 rounded-xl bg-card px-3 py-2 shadow-lift sm:-right-4 sm:bottom-5">
+                    <span className="grid size-8 place-items-center rounded-lg bg-butter"><Banknote className="size-4 text-success" /></span>
+                    <span><strong className="block text-xs text-success">Cash on delivery</strong><small className="text-muted-foreground">pay on arrival</small></span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-          <div className="relative order-1 mx-auto aspect-square w-full max-w-[420px] md:order-2">
-            <div className="absolute inset-[18%] rounded-full bg-lilac/60 blur-2xl" style={{ transform: `scale(${1 + p * 0.3})` }} />
-            {TOYS.map((t, i) => (
-              <div
-                key={t.e}
-                className={cn("absolute left-1/2 top-1/2 flex h-[28%] w-[28%] items-center justify-center rounded-[var(--radius)] text-5xl shadow-soft will-change-transform", t.bg)}
-                style={{ transform: `translate(-50%,-50%) translate(${t.x + t.dx * p}%, ${t.y + t.dy * p}%) translate(${(t.x + t.dx * p) * 1.6}px, ${(t.y + t.dy * p) * 1.6}px) rotate(${t.r * (1 - 2 * p)}deg) scale(${1 + Math.sin(p * Math.PI + i) * 0.06})` }}
-              >
-                {t.e}
-              </div>
+              </article>
+            );
+          })}
+
+          <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5" aria-label={`Slide ${activePanel + 1} of ${PANELS.length}`}>
+            {PANELS.map((panel, index) => (
+              <span key={panel.kicker} className={cn("h-1.5 rounded-full bg-foreground/20 transition-all", index === activePanel ? "w-7 bg-hotpink" : "w-1.5")} />
             ))}
           </div>
         </div>
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground" style={{ opacity: 1 - p * 3 }}>Scroll to explore ↓</div>
       </div>
     </section>
   );
