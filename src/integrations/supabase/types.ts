@@ -230,6 +230,44 @@ export type Database = {
           },
         ]
       }
+      order_labels: {
+        Row: {
+          courier: string | null
+          courier_tracking: string | null
+          download_count: number
+          generated_at: string
+          last_printed_at: string | null
+          order_id: string
+          print_count: number
+        }
+        Insert: {
+          courier?: string | null
+          courier_tracking?: string | null
+          download_count?: number
+          generated_at?: string
+          last_printed_at?: string | null
+          order_id: string
+          print_count?: number
+        }
+        Update: {
+          courier?: string | null
+          courier_tracking?: string | null
+          download_count?: number
+          generated_at?: string
+          last_printed_at?: string | null
+          order_id?: string
+          print_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_labels_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_status_history: {
         Row: {
           created_at: string

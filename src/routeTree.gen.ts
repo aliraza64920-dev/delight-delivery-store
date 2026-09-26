@@ -22,9 +22,12 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
+import { Route as AdminOrdersOrderNumberRouteImport } from './routes/admin.orders.$orderNumber'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -93,6 +96,11 @@ const WishlistRoute = WishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
   id: '/checkout/',
   path: '/checkout/',
@@ -107,6 +115,16 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   id: '/products/$slug',
   path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersOrderNumberRoute = AdminOrdersOrderNumberRouteImport.update({
+  id: '/orders/$orderNumber',
+  path: '/orders/$orderNumber',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
   id: '/api/public/img/$',
@@ -123,7 +141,7 @@ const ApiPublicPaymentsWebhookRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/order-confirmation': typeof OrderConfirmationRoute
@@ -136,14 +154,16 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/checkout/': typeof CheckoutIndexRoute
+  '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/order-confirmation': typeof OrderConfirmationRoute
@@ -156,7 +176,10 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/checkout': typeof CheckoutIndexRoute
+  '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -164,7 +187,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/cart': typeof CartRoute
   '/order-confirmation': typeof OrderConfirmationRoute
@@ -177,7 +200,10 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/checkout/': typeof CheckoutIndexRoute
+  '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -199,14 +225,16 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/checkout/return'
     | '/products/$slug'
+    | '/admin/'
     | '/checkout/'
+    | '/admin/orders/$orderNumber'
+    | '/admin/orders/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account'
-    | '/admin'
     | '/auth'
     | '/cart'
     | '/order-confirmation'
@@ -219,7 +247,10 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/checkout/return'
     | '/products/$slug'
+    | '/admin'
     | '/checkout'
+    | '/admin/orders/$orderNumber'
+    | '/admin/orders'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   id:
@@ -239,7 +270,10 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/checkout/return'
     | '/products/$slug'
+    | '/admin/'
     | '/checkout/'
+    | '/admin/orders/$orderNumber'
+    | '/admin/orders/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -247,7 +281,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CartRoute: typeof CartRoute
   OrderConfirmationRoute: typeof OrderConfirmationRoute
@@ -358,6 +392,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WishlistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/checkout/': {
       id: '/checkout/'
       path: '/checkout'
@@ -379,6 +420,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/orders'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminOrdersIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders/$orderNumber': {
+      id: '/admin/orders/$orderNumber'
+      path: '/orders/$orderNumber'
+      fullPath: '/admin/orders/$orderNumber'
+      preLoaderRoute: typeof AdminOrdersOrderNumberRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/public/img/$': {
       id: '/api/public/img/$'
       path: '/api/public/img/$'
@@ -396,10 +451,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminOrdersOrderNumberRoute: typeof AdminOrdersOrderNumberRoute
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminOrdersOrderNumberRoute: AdminOrdersOrderNumberRoute,
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CartRoute: CartRoute,
   OrderConfirmationRoute: OrderConfirmationRoute,
