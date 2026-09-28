@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Heart, Mail, MapPin, Menu, Search, ShoppingCart, X } from "lucide-react";
+import { Heart, Mail, MapPin, Menu, Search, ShoppingCart, User, X } from "lucide-react";
 import { useState } from "react";
 import { useCart, useWishlist } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
@@ -43,7 +43,7 @@ export function Header() {
           {NAV.map((n) => (
             <li key={n.label}><Link to={n.to} search={n.search as never} className="opacity-85 hover:opacity-100">{n.label}</Link></li>
           ))}
-          {isAdmin && <li><Link to="/admin" className="text-hotpink">Admin</Link></li>}
+          <li><Link to="/admin" className="text-hotpink">{isAdmin ? "Admin" : "Admin Panel"}</Link></li>
         </ul>
         <div className="flex shrink-0 items-center gap-0 sm:gap-1">
           <IconBtn label="Search" onClick={() => setSearchOpen((s) => !s)}><Search className="h-5 w-5" /></IconBtn>
@@ -55,6 +55,9 @@ export function Header() {
             <ShoppingCart className="h-5 w-5" />
             {count > 0 && <Badge n={count} />}
           </Link>
+          {user
+            ? <Link to="/account" aria-label="My account" className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-muted"><User className="h-5 w-5" /></Link>
+            : <Link to="/auth" search={{ redirect: "/admin" } as never} className="ml-1 hidden rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted sm:inline-flex">Sign In</Link>}
           <IconBtn label="Menu" className="lg:hidden" onClick={() => setOpen((o) => !o)}>{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</IconBtn>
         </div>
       </nav>
@@ -71,7 +74,10 @@ export function Header() {
             {NAV.map((n) => (
               <li key={n.label}><Link to={n.to} search={n.search as never} onClick={() => setOpen(false)} className="block py-3">{n.label}</Link></li>
             ))}
-            {isAdmin && <li><Link to="/admin" onClick={() => setOpen(false)} className="block py-3 text-hotpink">Admin</Link></li>}
+            <li><Link to="/admin" onClick={() => setOpen(false)} className="block py-3 text-hotpink">Admin Panel</Link></li>
+            <li>{user
+              ? <Link to="/account" onClick={() => setOpen(false)} className="block py-3">My Account</Link>
+              : <Link to="/auth" search={{ redirect: "/admin" } as never} onClick={() => setOpen(false)} className="block py-3">Sign In</Link>}</li>
           </ul>
         </div>
       )}
