@@ -12,7 +12,9 @@ Done:
 
 Open:
 - [x] Fix typecheck errors (placeholder pages added for cart, checkout, track, wishlist, account, auth, admin)
-- [ ] Pages: cart, checkout (3 steps), payment return, order confirmation, order tracking, wishlist, sign in/sign up, account
-- [ ] Admin: orders, products (with image upload), coupons, delivery and COD settings
+- [x] Pages: cart, checkout (3 steps), payment return, order confirmation, order tracking, sign in/sign up
+- [ ] Pages: wishlist, account
+- [x] Admin: dashboard, orders list, order detail, shipping labels
+- [ ] Admin: products (with image upload), coupons, delivery and COD settings
 - [ ] Full end-to-end test on desktop and mobile
 - [ ] Waiting on the user: Safepay keys, first admin account
