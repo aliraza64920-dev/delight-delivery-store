@@ -57,7 +57,7 @@ export function Header() {
           </Link>
           {user
             ? <Link to="/account" aria-label="My account" className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-muted"><User className="h-5 w-5" /></Link>
-            : <Link to="/auth" className="ml-1 hidden rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted sm:inline-flex">Sign In</Link>}
+            : <Link to="/auth" search={{ redirect: "/admin" } as never} className="ml-1 hidden rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted sm:inline-flex">Sign In</Link>}
           <IconBtn label="Menu" className="lg:hidden" onClick={() => setOpen((o) => !o)}>{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</IconBtn>
         </div>
       </nav>
@@ -77,7 +77,7 @@ export function Header() {
             <li><Link to="/admin" onClick={() => setOpen(false)} className="block py-3 text-hotpink">Admin Panel</Link></li>
             <li>{user
               ? <Link to="/account" onClick={() => setOpen(false)} className="block py-3">My Account</Link>
-              : <Link to="/auth" onClick={() => setOpen(false)} className="block py-3">Sign In</Link>}</li>
+              : <Link to="/auth" search={{ redirect: "/admin" } as never} onClick={() => setOpen(false)} className="block py-3">Sign In</Link>}</li>
           </ul>
         </div>
       )}
