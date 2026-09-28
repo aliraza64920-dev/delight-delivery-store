@@ -32,7 +32,7 @@ function OrdersPage() {
   return (
     <div>
       <div className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-        <input className={`${inp} lg:col-span-2`} placeholder="Search order ID, name or phone" value={q} onChange={(e) => setQ(e.target.value)} />
+        <input className={`${inp} lg:col-span-2`} placeholder="Search order ID, name, phone or email" value={q} onChange={(e) => setQ(e.target.value)} />
         <select className={inp} value={s.status ?? ""} onChange={(e) => set("status", e.target.value)} aria-label="Order status">
           <option value="">All order statuses</option>
           {ORDER_STATUSES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -57,7 +57,7 @@ function OrdersPage() {
           <div className="hidden overflow-x-auto rounded-2xl border md:block">
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left text-xs uppercase text-muted-foreground">
-                <tr>{["Order ID", "Customer", "Phone", "Total", "Payment", "Date", "Status", "Payment status", ""].map((h) => <th key={h} className="px-3 py-3">{h}</th>)}</tr>
+                <tr>{["Order ID", "Customer", "Email", "Phone", "Total", "Payment", "Date", "Status", "Payment status", ""].map((h) => <th key={h} className="px-3 py-3">{h}</th>)}</tr>
               </thead>
               <tbody>
                 {data.map((o) => (

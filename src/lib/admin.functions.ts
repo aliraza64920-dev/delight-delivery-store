@@ -63,7 +63,7 @@ export const listAdminOrders = createServerFn({ method: "POST" })
     const term = data.q?.trim().replace(/[,()%*]/g, "");
     if (term) {
       const digits = term.replace(/\D/g, "").replace(/^92/, "0");
-      q = q.or([`order_number.ilike.%${term}%`, `customer_name.ilike.%${term}%`, digits.length >= 3 ? `phone.ilike.%${digits}%` : null].filter(Boolean).join(","));
+      q = q.or([`order_number.ilike.%${term}%`, `customer_name.ilike.%${term}%`, `email.ilike.%${term}%`, digits.length >= 3 ? `phone.ilike.%${digits}%` : null].filter(Boolean).join(","));
     }
     const { data: rows, error } = await q;
     if (error) throw new Error("Could not load orders");
