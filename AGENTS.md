@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Product `category` is the primary shop category and `subcategory` can be a second shop category; match both in category filtering and counts so one product appears in both without duplicate records.

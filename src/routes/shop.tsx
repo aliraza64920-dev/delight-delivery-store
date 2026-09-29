@@ -59,7 +59,7 @@ function Shop() {
     let r = products.filter((p) => {
       const price = effectivePrice(p);
       if (s.q && !matches(p, s.q)) return false;
-      if (s.category && p.category !== s.category) return false;
+      if (s.category && p.category !== s.category && p.subcategory !== s.category) return false;
       if (s.age && p.age_range !== s.age) return false;
       if (s.brand && p.brand !== s.brand) return false;
       if (s.min != null && price < s.min) return false;
