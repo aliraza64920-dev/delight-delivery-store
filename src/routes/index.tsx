@@ -33,7 +33,7 @@ function Home() {
   const { data: products } = useSuspenseQuery(productsQuery());
   const best = products.filter((p) => p.is_best_seller || p.is_featured).slice(0, 8);
   const arrivals = products.filter((p) => p.is_new).slice(0, 4);
-  const counts = (c: string) => products.filter((p) => p.category === c).length;
+  const counts = (c: string) => products.filter((p) => p.category === c || p.subcategory === c).length;
 
   return (
     <>
