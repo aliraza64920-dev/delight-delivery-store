@@ -79,7 +79,6 @@ function ProductPage() {
             {pct > 0 && <span className="text-lg text-muted-foreground line-through">{formatRs(p.price)}</span>}
           </div>
           <span className={cn("mt-3 inline-block rounded-full px-3 py-1 text-sm font-bold", stock.cls)}>{stock.label}</span>
-          {p.description && <p className="mt-4 text-muted-foreground">{p.description}</p>}
           <dl className="mt-4 grid grid-cols-2 gap-y-1 text-sm">
             <dt className="font-bold">Brand</dt><dd>{p.brand}</dd>
             {p.age_range && <><dt className="font-bold">Age</dt><dd>{p.age_range === "Teens" ? "13+" : p.age_range} years</dd></>}
