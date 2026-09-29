@@ -54,7 +54,7 @@ function ProductPage() {
     <div className="section">
       <nav className="mb-4 text-sm text-muted-foreground"><Link to="/shop" className="hover:underline">Shop</Link> / <Link to="/shop" search={{ category: p.category }} className="hover:underline">{p.category}</Link> / {p.name}</nav>
       <div className="grid gap-8 md:grid-cols-2">
-        <div>
+        <div className="self-start md:sticky md:top-24">
           <div className="soft-card overflow-hidden"><ProductVisual image={p.images[img]} emoji={p.emoji} color={p.color} name={p.name} size="text-[8rem]" /></div>
           {p.images.length > 1 && (
             <div className="mt-3 flex gap-2">
@@ -79,7 +79,6 @@ function ProductPage() {
             {pct > 0 && <span className="text-lg text-muted-foreground line-through">{formatRs(p.price)}</span>}
           </div>
           <span className={cn("mt-3 inline-block rounded-full px-3 py-1 text-sm font-bold", stock.cls)}>{stock.label}</span>
-          {p.description && <p className="mt-4 text-muted-foreground">{p.description}</p>}
           <dl className="mt-4 grid grid-cols-2 gap-y-1 text-sm">
             <dt className="font-bold">Brand</dt><dd>{p.brand}</dd>
             {p.age_range && <><dt className="font-bold">Age</dt><dd>{p.age_range === "Teens" ? "13+" : p.age_range} years</dd></>}
@@ -105,6 +104,8 @@ function ProductPage() {
             </button>
             <a href={waLink(cfg?.whatsapp ?? "923002552414", `Hi Play Town! I'd like to ask about "${p.name}" (SKU ${p.sku}).`)} target="_blank" rel="noopener noreferrer" className="pill-btn bg-whatsapp text-primary-foreground"><WhatsAppIcon className="h-5 w-5" /> Ask on WhatsApp</a>
           </div>
+
+          {p.description && <p className="mt-8 text-muted-foreground">{p.description}</p>}
 
           {Object.keys(p.specifications).length > 0 && (
             <div className="soft-card mt-8 p-5">
