@@ -54,7 +54,7 @@ function ProductPage() {
     <div className="section">
       <nav className="mb-4 text-sm text-muted-foreground"><Link to="/shop" className="hover:underline">Shop</Link> / <Link to="/shop" search={{ category: p.category }} className="hover:underline">{p.category}</Link> / {p.name}</nav>
       <div className="grid gap-8 md:grid-cols-2">
-        <div>
+        <div className="self-start md:sticky md:top-24">
           <div className="soft-card overflow-hidden"><ProductVisual image={p.images[img]} emoji={p.emoji} color={p.color} name={p.name} size="text-[8rem]" /></div>
           {p.images.length > 1 && (
             <div className="mt-3 flex gap-2">
