@@ -42,8 +42,8 @@ export function discountPct(p: Pick<Product, "price" | "sale_price">) {
 export function stockStatus(p: Pick<Product, "stock_quantity" | "low_stock_threshold">) {
   if (p.stock_quantity <= 0) return { key: "out", label: "Out of Stock", cls: "bg-destructive/10 text-destructive" } as const;
   if (p.stock_quantity <= p.low_stock_threshold)
-    return { key: "low", label: `Low Stock · only ${p.stock_quantity} left`, cls: "bg-butter text-warning" } as const;
-  return { key: "in", label: "In Stock", cls: "bg-success/10 text-success" } as const;
+    return { key: "low", label: "Limited Stock", cls: "bg-butter text-warning" } as const;
+  return { key: "in", label: "Available", cls: "bg-success/10 text-success" } as const;
 }
 
 export const COLOR_BG: Record<string, string> = {
