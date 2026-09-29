@@ -105,6 +105,8 @@ function ProductPage() {
             <a href={waLink(cfg?.whatsapp ?? "923002552414", `Hi Play Town! I'd like to ask about "${p.name}" (SKU ${p.sku}).`)} target="_blank" rel="noopener noreferrer" className="pill-btn bg-whatsapp text-primary-foreground"><WhatsAppIcon className="h-5 w-5" /> Ask on WhatsApp</a>
           </div>
 
+          {p.description && <p className="mt-8 text-muted-foreground">{p.description}</p>}
+
           {Object.keys(p.specifications).length > 0 && (
             <div className="soft-card mt-8 p-5">
               <h2 className="mb-2 text-xl">Specifications</h2>
