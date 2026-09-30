@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/auth";
 import { ProductVisual } from "@/components/store/ProductVisual";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/store/WhatsAppIcon";
+import { DescriptionBody } from "@/components/DescriptionBody";
 
 export const Route = createFileRoute("/products/$slug")({
   loader: async ({ context, params }) => {
@@ -20,7 +21,8 @@ export const Route = createFileRoute("/products/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Toy not found — Play Town" }, { name: "robots", content: "noindex" }] };
     const t = `${loaderData.name} — Play Town`;
-    return { meta: [{ title: t }, { name: "description", content: loaderData.description || `${loaderData.name} — Intex, available at Play Town.` }, { property: "og:title", content: t }, { property: "og:description", content: loaderData.description || `${loaderData.name} — Intex, available at Play Town.` }] };
+    const summary = loaderData.description.replace(/[#*•\n]/g, " ").replace(/\s+/g, " ").trim().slice(0, 160) || `${loaderData.name}, available at Play Town.`;
+    return { meta: [{ title: t }, { name: "description", content: summary }, { property: "og:title", content: t }, { property: "og:description", content: summary }, { property: "og:type", content: "product" }, { name: "twitter:card", content: "summary" }] };
   },
   notFoundComponent: () => (
     <div className="section text-center"><div className="text-6xl">🧸</div><h1 className="mt-2 text-3xl">Toy not found</h1><Link to="/shop" className="pill-btn pill-primary mt-5">Back to shop</Link></div>
@@ -105,7 +107,7 @@ function ProductPage() {
             <a href={waLink(cfg?.whatsapp ?? "923002552414", `Hi Play Town! I'd like to ask about "${p.name}" (SKU ${p.sku}).`)} target="_blank" rel="noopener noreferrer" className="pill-btn bg-whatsapp text-primary-foreground"><WhatsAppIcon className="h-5 w-5" /> Ask on WhatsApp</a>
           </div>
 
-          {p.description && <p className="mt-8 text-muted-foreground">{p.description}</p>}
+           {p.description && <DescriptionBody text={p.description} />}
 
           {Object.keys(p.specifications).length > 0 && (
             <div className="soft-card mt-8 p-5">
