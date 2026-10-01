@@ -11,6 +11,7 @@ Done:
 - [x] Added the requested 12 toy categories to the home page and shop filter
 - [x] Add DIY Bead Box with the supplied photos, description and sale price to DIY Toys and Makeup & Beauty Sets
 - [x] Add Playhouse Tent with three photos and point-wise description to Play & Tent House
+- [x] Remove empty space in product cards and fix the mobile scroll hero layout
 
 Open:
 - [x] Fix typecheck errors (placeholder pages added for cart, checkout, track, wishlist, account, auth, admin)
