@@ -13,6 +13,7 @@ Done:
 - [x] Add Playhouse Tent with three photos and point-wise description to Play & Tent House
 
 Open:
+- [ ] Remove empty space in product cards and fix the mobile scroll hero layout
 - [x] Fix typecheck errors (placeholder pages added for cart, checkout, track, wishlist, account, auth, admin)
 - [x] Pages: cart, checkout (3 steps), payment return, order confirmation, order tracking, sign in/sign up
 - [ ] Pages: wishlist, account

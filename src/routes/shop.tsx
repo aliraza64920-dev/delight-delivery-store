@@ -114,7 +114,7 @@ function Shop() {
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
+      <div className="grid items-start gap-6 lg:grid-cols-[240px_1fr]">
         <aside className={`${showFilters ? "block" : "hidden"} soft-card h-fit space-y-5 p-5 lg:block`}>
           <Filter label="Category">
             <select className="field" value={s.category ?? ""} onChange={(e) => set({ category: e.target.value || undefined })}>
@@ -150,7 +150,7 @@ function Shop() {
         </aside>
 
         {list.length ? (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">{list.map((p) => <ProductCard key={p.id} p={p} />)}</div>
+          <div className="grid grid-cols-1 items-start gap-4 min-[390px]:grid-cols-2 md:grid-cols-3">{list.map((p) => <ProductCard key={p.id} p={p} />)}</div>
         ) : (
           <div className="soft-card flex flex-col items-center p-12 text-center">
             <div className="text-6xl">🔍</div>
