@@ -89,9 +89,9 @@ function Shop() {
           <h1 className="text-4xl">{s.q ? `Results for “${s.q}”` : s.category ?? (s.sale ? "On Sale" : "All Toys")}</h1>
           <p className="text-muted-foreground">{list.length} product{list.length === 1 ? "" : "s"}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex min-w-0 max-w-full gap-2">
           <button onClick={() => setShowFilters((v) => !v)} className="pill-btn pill-secondary lg:hidden"><SlidersHorizontal className="h-4 w-4" />Filters</button>
-          <select aria-label="Sort" value={s.sort ?? "popular"} onChange={(e) => set({ sort: e.target.value as Search["sort"] })} className="field w-auto">
+          <select aria-label="Sort" value={s.sort ?? "popular"} onChange={(e) => set({ sort: e.target.value as Search["sort"] })} className="field min-w-0 flex-1 sm:w-auto">
             <option value="popular">Popular</option>
             <option value="newest">Newest</option>
             <option value="price_asc">Price: Low → High</option>
