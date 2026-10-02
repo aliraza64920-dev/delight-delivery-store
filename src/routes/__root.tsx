@@ -31,11 +31,12 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    const err = error instanceof Error ? error : new Error(String(error));
+    reportLovableError(err, { boundary: "tanstack_root_error_component" });
   }, [error]);
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4">
