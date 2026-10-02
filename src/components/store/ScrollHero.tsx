@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Banknote, Truck } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import poolsAsset from "@/assets/kids-inflatable-pools.jpeg.asset.json";
-import stitchAsset from "@/assets/stitch-villa-playset.jpeg.asset.json";
-import rcCarAsset from "@/assets/rapidity-rc-car.jpeg.asset.json";
+import beadBoxAsset from "@/assets/diy-bead-box-showcase.png.asset.json";
+import playhouseAsset from "@/assets/playhouse-tent-main.jpeg.asset.json";
+import cactusAsset from "@/assets/dancing-cactus-features.jpg.asset.json";
 import { cn } from "@/lib/utils";
 
 type HeroPanel = {
@@ -11,7 +11,7 @@ type HeroPanel = {
   title: ReactNode;
   body: string;
   cta: string;
-  search: Record<string, string>;
+  slug: string;
   image: string;
   imageAlt: string;
   backdrop: string;
@@ -19,33 +19,33 @@ type HeroPanel = {
 
 const PANELS: HeroPanel[] = [
   {
-    kicker: "Summer splash season",
-    title: <>Cool down with <span className="text-hotpink">pool fun!</span></>,
-    body: "Bright inflatable pools made for splashy afternoons, little swimmers and endless summer smiles.",
-    cta: "Shop Pools & Water Toys",
-    search: { category: "Outdoor & Sports" },
-    image: poolsAsset.url,
-    imageAlt: "Pink and green inflatable pools for children",
+    kicker: "Create, design & sparkle",
+    title: <>Make something special with the <span className="text-hotpink">DIY Bead Box.</span></>,
+    body: "A colourful jewellery-making kit packed with beads, charms and everything little creators need for bracelets and necklaces.",
+    cta: "Shop DIY Bead Box",
+    slug: "diy-bead-box",
+    image: beadBoxAsset.url,
+    imageAlt: "DIY Bead Box jewellery-making kit with colourful beads and bracelets",
     backdrop: "from-baby via-lilac to-butter",
   },
   {
-    kicker: "Make-believe magic",
-    title: <>Build a little world of <span className="text-hotpink">big stories.</span></>,
-    body: "A colourful Stitch villa playset packed with rooms, characters and creative adventures to dream up.",
-    cta: "Shop Pretend Play",
-    search: { category: "Dolls & Dollhouses" },
-    image: stitchAsset.url,
-    imageAlt: "Stitch villa dollhouse playset with six figures",
+    kicker: "A house made for play",
+    title: <>Big adventures begin in the <span className="text-hotpink">Playhouse Tent.</span></>,
+    body: "A bright indoor and outdoor hideaway for pretend play, cosy reading time and unforgettable little adventures.",
+    cta: "Shop Playhouse Tent",
+    slug: "playhouse-tent-kids-indoor-outdoor",
+    image: playhouseAsset.url,
+    imageAlt: "Colourful children's playhouse tent for indoor and outdoor play",
     backdrop: "from-blush via-lilac to-baby",
   },
   {
-    kicker: "Race season is here",
-    title: <>Fast, fearless & <span className="text-hotpink">Pakistan-ready.</span></>,
-    body: "A rugged remote-control racer with chunky tyres, sharp handling and plenty of off-road attitude.",
-    cta: "Shop RC Cars",
-    search: { category: "Vehicles & RC" },
-    image: rcCarAsset.url,
-    imageAlt: "Blue and green Rapidity remote-control off-road car",
+    kicker: "Sing, dance & repeat",
+    title: <>Meet the playful <span className="text-hotpink">Dancing Cactus.</span></>,
+    body: "An interactive musical friend that sings, dances, lights up and repeats what children say for laugh-out-loud playtime.",
+    cta: "Shop Dancing Cactus",
+    slug: "dancing-cactus",
+    image: cactusAsset.url,
+    imageAlt: "Dancing Cactus interactive musical toy with lights and voice repeat",
     backdrop: "from-butter via-lilac to-baby",
   },
 ];
@@ -105,7 +105,7 @@ export function ScrollHero() {
                     <h2 className="max-w-[620px] text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl">{panel.title}</h2>
                   )}
                   <p className="mt-2 max-w-[570px] text-sm leading-snug text-muted-foreground sm:mt-4 sm:text-lg sm:leading-relaxed">{panel.body}</p>
-                  <Link to="/shop" search={panel.search} className="pill-btn pill-primary mt-3 w-fit sm:mt-6">
+                  <Link to="/products/$slug" params={{ slug: panel.slug }} className="pill-btn pill-primary mt-3 w-fit sm:mt-6">
                     {panel.cta}<ArrowRight className="size-4" />
                   </Link>
 
