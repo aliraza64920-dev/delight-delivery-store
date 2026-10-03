@@ -13,6 +13,7 @@ Done:
 - [x] Add Playhouse Tent with three photos and point-wise description to Play & Tent House
 - [x] Add Dancing Cactus with three photos and point-wise description to Musical Toys
 - [x] Remove empty space in product cards and fix the mobile scroll hero layout
+- [x] Add Pop-Up House Tent (bus play tent) with photos, description and sale price to Play & Tent House
 
 Open:
 - [x] Fix typecheck errors (placeholder pages added for cart, checkout, track, wishlist, account, auth, admin)
