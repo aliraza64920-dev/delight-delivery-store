@@ -7,7 +7,7 @@ import { configQuery, productQuery } from "@/lib/queries";
 import { addToCart, toggleWishlist, useWishlist } from "@/lib/cart";
 import { discountPct, effectivePrice, formatRs, stockStatus, waLink } from "@/lib/format";
 import { useAuth } from "@/lib/auth";
-import { ProductVisual } from "@/components/store/ProductVisual";
+import { ProductGallery } from "@/components/store/ProductGallery";
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "@/components/store/WhatsAppIcon";
 import { DescriptionBody } from "@/components/DescriptionBody";
@@ -39,7 +39,6 @@ function ProductPage() {
   const wish = useWishlist();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
-  const [img, setImg] = useState(0);
   if (!p) return null;
   const stock = stockStatus(p);
   const out = stock.key === "out";
@@ -57,16 +56,7 @@ function ProductPage() {
       <nav className="mb-4 text-sm text-muted-foreground"><Link to="/shop" className="hover:underline">Shop</Link> / <Link to="/shop" search={{ category: p.category }} className="hover:underline">{p.category}</Link> / {p.name}</nav>
       <div className="grid gap-8 md:grid-cols-2">
         <div className="self-start md:sticky md:top-24">
-          <div className="soft-card overflow-hidden"><ProductVisual image={p.images[img]} emoji={p.emoji} color={p.color} name={p.name} size="text-[8rem]" /></div>
-          {p.images.length > 1 && (
-            <div className="mt-3 flex gap-2">
-              {p.images.map((src, i) => (
-                <button key={src} onClick={() => setImg(i)} className={cn("h-16 w-16 overflow-hidden rounded-xl border-2", i === img ? "border-primary" : "border-transparent")}>
-                  <img src={src} alt="" className="h-full w-full object-cover" />
-                </button>
-              ))}
-            </div>
-          )}
+          <ProductGallery images={p.images} name={p.name} emoji={p.emoji} color={p.color} />
         </div>
         <div>
           <div className="flex flex-wrap gap-2">
