@@ -39,7 +39,6 @@ function ProductPage() {
   const wish = useWishlist();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
-  const [img, setImg] = useState(0);
   if (!p) return null;
   const stock = stockStatus(p);
   const out = stock.key === "out";
