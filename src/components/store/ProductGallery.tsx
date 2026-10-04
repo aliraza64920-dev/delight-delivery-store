@@ -27,7 +27,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
   const resetView = useCallback(() => {
     setZoom(1);
     setOffset({ x: 0, y: 0 });
-  }, [fullscreen]);
+  }, []);
 
   const clampOffset = (z: number, o: { x: number; y: number }) => {
     const el = frameRef.current;
@@ -75,7 +75,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
     };
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
-  }, []);
+  }, [fullscreen]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
