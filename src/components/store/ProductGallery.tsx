@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight, Maximize2, X, ZoomIn, ZoomOut } from "lucide-react";
 import { COLOR_BG } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -186,8 +187,8 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
         </div>
       )}
 
-      {fullscreen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-foreground/95" role="dialog" aria-modal="true" aria-label={`${name} photos`}>
+      {fullscreen && createPortal(
+        <div className="fixed inset-0 z-[100] flex flex-col bg-foreground" role="dialog" aria-modal="true" aria-label={`${name} photos`}>
           <div className="flex shrink-0 items-center justify-between p-3 sm:p-4">
             <span className="text-sm font-bold text-primary-foreground">{index + 1} / {images.length}</span>
             <div className="flex gap-2">
@@ -205,7 +206,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
               <Button size="icon" variant="secondary" title="Next photo" aria-label="Next photo" onClick={() => go(1)} className="absolute right-3 z-10 h-11 w-11 rounded-full bg-card text-foreground shadow"><ChevronRight /></Button>
             )}
           </div>
-        </div>
+        </div>, document.body
       )}
     </div>
   );
