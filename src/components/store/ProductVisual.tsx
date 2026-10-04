@@ -5,7 +5,7 @@ export function ProductVisual({ image, emoji, color, name, className, size = "te
   return (
     <div className={cn("flex aspect-square items-center justify-center overflow-hidden", COLOR_BG[color] ?? "bg-baby", className)}>
       {image ? (
-        <img src={image} alt={name} loading="lazy" className="h-full w-full object-cover" />
+        <img src={image} alt={name} loading="lazy" className="h-full w-full object-contain" />
       ) : (
         <span className={size} role="img" aria-label={name}>{emoji}</span>
       )}

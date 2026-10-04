@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Maximize2, X, ZoomIn, ZoomOut } from "lucide-react";
 import { COLOR_BG } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
@@ -26,7 +27,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
   const resetView = useCallback(() => {
     setZoom(1);
     setOffset({ x: 0, y: 0 });
-  }, []);
+  }, [fullscreen]);
 
   const clampOffset = (z: number, o: { x: number; y: number }) => {
     const el = frameRef.current;
@@ -150,7 +151,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
           src={current}
           alt={name}
           draggable={false}
-          className="h-full w-full object-cover transition-transform duration-100 ease-out"
+          className="h-full w-full object-contain transition-transform duration-100 ease-out"
           style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})` }}
         />
       ) : (
@@ -161,47 +162,47 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
 
   return (
     <div>
-      <div className="soft-card relative overflow-hidden">
-        {stage}
-        <div className="absolute right-3 top-3 flex gap-2">
-          <button aria-label="Zoom in" onClick={() => applyZoom(zoom + 0.5)} className="flex h-9 w-9 items-center justify-center rounded-full bg-card/90 shadow"><ZoomIn className="h-4 w-4" /></button>
-          <button aria-label="Zoom out" onClick={() => applyZoom(zoom - 0.5)} disabled={zoom <= 1} className="flex h-9 w-9 items-center justify-center rounded-full bg-card/90 shadow disabled:opacity-40"><ZoomOut className="h-4 w-4" /></button>
-          <button aria-label="Full screen" onClick={() => setFullscreen(true)} className="flex h-9 w-9 items-center justify-center rounded-full bg-card/90 shadow"><Maximize2 className="h-4 w-4" /></button>
+      {!fullscreen && (
+        <div className="soft-card relative overflow-hidden">
+          {stage}
+          <div className="absolute right-3 top-3 flex gap-2">
+            <Button size="icon" variant="secondary" title="Zoom in" aria-label="Zoom in" onClick={() => applyZoom(zoom + 0.5)} className="rounded-full bg-card/90 shadow"><ZoomIn /></Button>
+            <Button size="icon" variant="secondary" title="Zoom out" aria-label="Zoom out" onClick={() => applyZoom(zoom - 0.5)} disabled={zoom <= 1} className="rounded-full bg-card/90 shadow"><ZoomOut /></Button>
+            <Button size="icon" variant="secondary" title="Full screen" aria-label="Full screen" onClick={() => { resetView(); setFullscreen(true); }} className="rounded-full bg-card/90 shadow"><Maximize2 /></Button>
+          </div>
+          {zoom > 1 && (
+            <Button size="sm" variant="secondary" onClick={resetView} className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-card/90 shadow">Reset zoom ({zoom.toFixed(1)}x)</Button>
+          )}
         </div>
-        {zoom > 1 && (
-          <button onClick={resetView} className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-card/90 px-3 py-1 text-xs font-bold shadow">
-            Reset zoom ({zoom.toFixed(1)}x)
-          </button>
-        )}
-      </div>
+      )}
 
       {images.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {images.map((src, i) => (
-            <button key={src} onClick={() => { setIndex(i); resetView(); }} className={cn("h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2", i === index ? "border-primary" : "border-transparent")}>
-              <img src={src} alt="" className="h-full w-full object-cover" />
-            </button>
+            <Button key={`${src}-${i}`} size="icon" variant="ghost" title={`Photo ${i + 1}`} aria-label={`Photo ${i + 1}`} aria-pressed={i === index} onClick={() => { setIndex(i); resetView(); }} className={cn("h-16 w-16 shrink-0 overflow-hidden rounded border-2 p-0", i === index ? "border-primary" : "border-transparent")}>
+              <img src={src} alt="" className="h-full w-full object-contain" />
+            </Button>
           ))}
         </div>
       )}
 
       {fullscreen && (
         <div className="fixed inset-0 z-50 flex flex-col bg-foreground/95" role="dialog" aria-modal="true" aria-label={`${name} photos`}>
-          <div className="flex items-center justify-between p-4">
+          <div className="flex shrink-0 items-center justify-between p-3 sm:p-4">
             <span className="text-sm font-bold text-primary-foreground">{index + 1} / {images.length}</span>
             <div className="flex gap-2">
-              <button aria-label="Zoom in" onClick={() => applyZoom(zoom + 0.5)} className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground"><ZoomIn className="h-5 w-5" /></button>
-              <button aria-label="Zoom out" onClick={() => applyZoom(zoom - 0.5)} disabled={zoom <= 1} className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground disabled:opacity-40"><ZoomOut className="h-5 w-5" /></button>
-              <button aria-label="Close" onClick={() => { setFullscreen(false); resetView(); }} className="flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground"><X className="h-5 w-5" /></button>
+              <Button size="icon" variant="secondary" title="Zoom in" aria-label="Zoom in" onClick={() => applyZoom(zoom + 0.5)} className="rounded-full bg-card text-foreground"><ZoomIn /></Button>
+              <Button size="icon" variant="secondary" title="Zoom out" aria-label="Zoom out" onClick={() => applyZoom(zoom - 0.5)} disabled={zoom <= 1} className="rounded-full bg-card text-foreground"><ZoomOut /></Button>
+              <Button size="icon" variant="secondary" title="Close" aria-label="Close" onClick={() => { setFullscreen(false); resetView(); }} className="rounded-full bg-card text-foreground"><X /></Button>
             </div>
           </div>
-          <div className="relative flex flex-1 items-center justify-center overflow-hidden p-4">
+          <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden p-3 sm:p-4">
             {images.length > 1 && (
-              <button aria-label="Previous photo" onClick={() => go(-1)} className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-card text-foreground shadow"><ChevronLeft className="h-5 w-5" /></button>
+              <Button size="icon" variant="secondary" title="Previous photo" aria-label="Previous photo" onClick={() => go(-1)} className="absolute left-3 z-10 h-11 w-11 rounded-full bg-card text-foreground shadow"><ChevronLeft /></Button>
             )}
-            <div className="h-full max-h-full w-full max-w-3xl">{stage}</div>
+            <div className="w-full max-w-3xl" style={{ width: "min(100%, calc(100dvh - 6rem))" }}>{stage}</div>
             {images.length > 1 && (
-              <button aria-label="Next photo" onClick={() => go(1)} className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-card text-foreground shadow"><ChevronRight className="h-5 w-5" /></button>
+              <Button size="icon" variant="secondary" title="Next photo" aria-label="Next photo" onClick={() => go(1)} className="absolute right-3 z-10 h-11 w-11 rounded-full bg-card text-foreground shadow"><ChevronRight /></Button>
             )}
           </div>
         </div>
