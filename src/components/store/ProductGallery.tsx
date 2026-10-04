@@ -83,6 +83,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.current.size === 2) {
       const [a, b] = [...pointers.current.values()];
+      if (!a || !b) return;
       pinchStart.current = { dist: Math.hypot(a.x - b.x, a.y - b.y), zoom };
       panStart.current = null;
     } else {
@@ -95,6 +96,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.current.size === 2 && pinchStart.current) {
       const [a, b] = [...pointers.current.values()];
+      if (!a || !b) return;
       const dist = Math.hypot(a.x - b.x, a.y - b.y);
       const cx = (a.x + b.x) / 2;
       const cy = (a.y + b.y) / 2;
