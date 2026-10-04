@@ -16,6 +16,7 @@ Done:
 - [x] Add Pop-Up House Tent (bus play tent) with photos, description and sale price to Play & Tent House
 
 Open:
+- [x] Correct the display and zoom of existing product photos without making replacement images
 - [x] Fix typecheck errors (placeholder pages added for cart, checkout, track, wishlist, account, auth, admin)
 - [x] Pages: cart, checkout (3 steps), payment return, order confirmation, order tracking, sign in/sign up
 - [ ] Pages: wishlist, account
