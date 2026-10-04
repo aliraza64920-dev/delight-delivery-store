@@ -200,7 +200,7 @@ export function ProductGallery({ images, name, emoji, color }: GalleryProps) {
             {images.length > 1 && (
               <Button size="icon" variant="secondary" title="Previous photo" aria-label="Previous photo" onClick={() => go(-1)} className="absolute left-3 z-10 h-11 w-11 rounded-full bg-card text-foreground shadow"><ChevronLeft /></Button>
             )}
-            <div className="w-full max-w-3xl" style={{ width: "min(100%, calc(100dvh - 6rem))" }}>{stage}</div>
+            <div className="w-[min(100%,calc(100dvh-6rem))] max-w-3xl">{stage}</div>
             {images.length > 1 && (
               <Button size="icon" variant="secondary" title="Next photo" aria-label="Next photo" onClick={() => go(1)} className="absolute right-3 z-10 h-11 w-11 rounded-full bg-card text-foreground shadow"><ChevronRight /></Button>
             )}
