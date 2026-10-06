@@ -32,7 +32,10 @@ const BUDGETS = [
 function Home() {
   const { data: products } = useSuspenseQuery(productsQuery());
   const best = products.filter((p) => p.is_best_seller || p.is_featured).slice(0, 8);
-  const arrivals = products.filter((p) => p.is_new).slice(0, 4);
+  const arrivals = products
+    .filter((p) => p.is_new)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 5);
   const counts = (c: string) => products.filter((p) => p.category === c || p.subcategory === c).length;
 
   return (
