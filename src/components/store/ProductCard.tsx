@@ -28,7 +28,7 @@ export function ProductCard({ p }: { p: Product }) {
               alt=""
               aria-hidden="true"
               loading="lazy"
-              className={cn("absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 group-hover/img:opacity-100", COLOR_BG[p.color] ?? "bg-baby")}
+              className={cn("absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover/img:opacity-100", COLOR_BG[p.color] ?? "bg-baby")}
             />
           )}
           {p.images[1] && (
