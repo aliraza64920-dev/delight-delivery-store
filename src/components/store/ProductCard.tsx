@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, Star } from "lucide-react";
 import { toast } from "sonner";
 import { addToCart, toggleWishlist, useWishlist } from "@/lib/cart";
-import { discountPct, effectivePrice, formatRs, stockStatus, type Product } from "@/lib/format";
+import { discountPct, effectivePrice, formatRs, stockStatus, COLOR_BG, type Product } from "@/lib/format";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { ProductVisual } from "./ProductVisual";
