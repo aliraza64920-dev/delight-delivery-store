@@ -20,8 +20,22 @@ export function ProductCard({ p }: { p: Product }) {
   return (
     <article className="soft-card flex min-w-0 flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-lift">
       <div className="relative">
-        <Link to="/products/$slug" params={{ slug: p.slug }} aria-label={`View ${p.name}`}>
-          <ProductVisual image={p.images[0]} emoji={p.emoji} color={p.color} name={p.name} />
+        <Link to="/products/$slug" params={{ slug: p.slug }} aria-label={`View ${p.name}`} className="group/img relative block">
+          <ProductVisual image={p.images[0]} emoji={p.emoji} color={p.color} name={p.name} className="transition-opacity duration-300 group-hover/img:opacity-0" />
+          {p.images[1] && (
+            <img
+              src={p.images[1]}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className={cn("absolute inset-0 h-full w-full object-contain opacity-0 transition-opacity duration-300 group-hover/img:opacity-100", COLOR_BG[p.color] ?? "bg-baby")}
+            />
+          )}
+          {p.images[1] && (
+            <span className="pointer-events-none absolute bottom-2.5 left-2.5 rounded-full bg-card/90 px-2.5 py-1 text-[0.65rem] font-bold opacity-0 shadow-soft transition-opacity duration-300 group-hover/img:opacity-100">
+              More photos
+            </span>
+          )}
         </Link>
         <div className="absolute left-2.5 top-2.5 flex flex-col gap-1">
           {pct > 0 && <span className="rounded-full bg-hotpink px-2.5 py-1 text-[0.68rem] font-extrabold text-primary-foreground">-{pct}% SALE</span>}
