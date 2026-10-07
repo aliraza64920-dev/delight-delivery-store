@@ -8,6 +8,12 @@ import { configQuery } from "@/lib/queries";
 import { waLink } from "@/lib/format";
 import logoAsset from "@/assets/playtown-logo.png.asset.json";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { InstagramIcon, TikTokIcon } from "./SocialIcons";
+
+export const SOCIALS = [
+  { label: "Instagram", handle: "@playtown.pk", href: "https://www.instagram.com/playtown.pk/", Icon: InstagramIcon },
+  { label: "TikTok", handle: "@playtown.pk", href: "https://www.tiktok.com/@playtown.pk", Icon: TikTokIcon },
+] as const;
 
 const NAV = [
   { to: "/shop", label: "Shop", search: {} },
@@ -104,7 +110,24 @@ export function Footer() {
           <div className="mt-5 space-y-2.5 text-sm">
             <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0" /> Shop 4012, 4th Floor, Central Plaza, Karachi</p>
             <a href={waLink("923002552414", "Hi Play Town! I have a question.")} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline"><WhatsAppIcon className="h-4 w-4 shrink-0" /> 0300 2552414</a>
-            <a href="mailto:playtown.pk1@gmail.com" className="flex items-center gap-2 break-all hover:underline"><Mail className="h-4 w-4 shrink-0" /> playtown.pk1@gmail.com</a>
+            <a href="mailto:playtown.pk1@gmail.com" className="flex items-center gap-2 break-all hover:underline"><Mail className="mt-0.5 h-4 w-4 shrink-0" /> playtown.pk1@gmail.com</a>
+          </div>
+          <div className="mt-5">
+            <h3 className="mb-2.5 text-xs font-bold uppercase tracking-wider opacity-80">Follow Us</h3>
+            <div className="flex flex-wrap gap-2.5">
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Play Town on ${label}`}
+                  className="flex h-11 items-center gap-2 rounded-full bg-primary-foreground/10 px-4 text-sm font-semibold transition hover:bg-primary-foreground/20"
+                >
+                  <Icon className="h-4 w-4 shrink-0" /> {label}
+                </a>
+              ))}
+            </div>
           </div>
           <p className="mt-4 text-xs opacity-70">Cash on Delivery &amp; secure card payments accepted</p>
         </div>
