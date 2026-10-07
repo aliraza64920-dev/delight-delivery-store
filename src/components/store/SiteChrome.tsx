@@ -11,8 +11,9 @@ import { WhatsAppIcon } from "./WhatsAppIcon";
 import { InstagramIcon, TikTokIcon } from "./SocialIcons";
 
 export const SOCIALS = [
-  { label: "Instagram", handle: "@playtown.pk", href: "https://www.instagram.com/playtown.pk/", Icon: InstagramIcon },
-  { label: "TikTok", handle: "@playtown.pk", href: "https://www.tiktok.com/@playtown.pk", Icon: TikTokIcon },
+  { label: "WhatsApp", handle: "0300 2552414", href: waLink("923002552414", "Hi Play Town! I have a question."), Icon: WhatsAppIcon, tone: "text-whatsapp" },
+  { label: "Instagram", handle: "@playtown.pk", href: "https://www.instagram.com/playtown.pk/", Icon: InstagramIcon, tone: "text-hotpink" },
+  { label: "TikTok", handle: "@playtown.pk", href: "https://www.tiktok.com/@playtown.pk", Icon: TikTokIcon, tone: "text-foreground" },
 ] as const;
 
 const NAV = [
@@ -53,7 +54,7 @@ export function Header() {
         </ul>
         <div className="flex shrink-0 items-center gap-0 sm:gap-1">
           <div className="mr-1 hidden items-center sm:flex">
-            {SOCIALS.map(({ label, href, Icon }) => (
+            {SOCIALS.map(({ label, href, Icon, tone }) => (
               <a
                 key={label}
                 href={href}
@@ -61,7 +62,7 @@ export function Header() {
                 rel="noopener noreferrer"
                 aria-label={`Play Town on ${label}`}
                 title={label}
-                className="flex h-11 w-11 items-center justify-center rounded-full text-hotpink opacity-80 transition hover:bg-muted hover:opacity-100"
+                className={`flex h-11 w-11 items-center justify-center rounded-full opacity-80 transition hover:bg-muted hover:opacity-100 ${tone}`}
               >
                 <Icon className="h-5 w-5" />
               </a>

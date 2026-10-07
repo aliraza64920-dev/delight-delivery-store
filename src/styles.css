@@ -59,6 +59,8 @@
   --color-sidebar-accent-foreground: var(--foreground);
   --color-sidebar-border: var(--border);
   --color-sidebar-ring: var(--ring);
+  --color-berry: var(--berry);
+  --color-berry-d: var(--berry-d);
   --shadow-soft: 0 8px 24px rgb(38 50 72 / 0.08);
   --shadow-lift: 0 14px 26px rgb(38 50 72 / 0.14);
   --animate-float: float 5s ease-in-out infinite;
@@ -103,6 +105,8 @@
   --peach-d: #f2c69d;
   --hotpink: #dc70aa;
   --whatsapp: #25d366;
+  --berry: #932c68;
+  --berry-d: #cf66a1;
 }
 
 @layer base {
