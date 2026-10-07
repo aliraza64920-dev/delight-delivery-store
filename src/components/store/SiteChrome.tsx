@@ -52,6 +52,21 @@ export function Header() {
           <li><Link to="/admin" className="text-hotpink">{isAdmin ? "Admin" : "Admin Panel"}</Link></li>
         </ul>
         <div className="flex shrink-0 items-center gap-0 sm:gap-1">
+          <div className="mr-1 hidden items-center sm:flex">
+            {SOCIALS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Play Town on ${label}`}
+                title={label}
+                className="flex h-11 w-11 items-center justify-center rounded-full text-hotpink opacity-80 transition hover:bg-muted hover:opacity-100"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
+          </div>
           <IconBtn label="Search" onClick={() => setSearchOpen((s) => !s)}><Search className="h-5 w-5" /></IconBtn>
           <Link to="/wishlist" aria-label="Wishlist" className="relative flex h-11 w-11 items-center justify-center rounded-full hover:bg-muted">
             <Heart className="h-5 w-5" />
@@ -80,6 +95,22 @@ export function Header() {
             {NAV.map((n) => (
               <li key={n.label}><Link to={n.to} search={n.search as never} onClick={() => setOpen(false)} className="block py-3">{n.label}</Link></li>
             ))}
+            <li className="mt-2 border-t pt-3">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider opacity-70">Follow Us</p>
+              <div className="flex flex-wrap gap-2">
+                {SOCIALS.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold"
+                  >
+                    <Icon className="h-4 w-4 shrink-0" /> {label}
+                  </a>
+                ))}
+              </div>
+            </li>
             <li><Link to="/admin" onClick={() => setOpen(false)} className="block py-3 text-hotpink">Admin Panel</Link></li>
             <li>{user
               ? <Link to="/account" onClick={() => setOpen(false)} className="block py-3">My Account</Link>
