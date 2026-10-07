@@ -15,6 +15,7 @@ Done:
 - [x] Remove empty space in product cards and fix the mobile scroll hero layout
 - [x] Add Pop-Up House Tent (bus play tent) with photos, description and sale price to Play & Tent House
 - [x] Add Spider-Man Play House (play tent & ball pit) with three photos and point-wise description to Play & Tent House
+- [x] Add Instagram and TikTok links to the footer "Follow Us" section
 
 Open:
 - [x] Correct the display and zoom of existing product photos without making replacement images
