@@ -136,7 +136,7 @@ function Badge({ n }: { n: number }) {
 export function Footer() {
   return (
     <footer className="mt-10 bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.85fr_1.05fr_0.9fr_1.2fr]">
+      <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_1.1fr_0.95fr]">
         <div>
           <Link to="/" aria-label="Play Town home"><img src={logoAsset.url} alt="Play Town" className="h-28 w-48 object-contain" /></Link>
           <p className="mt-2 text-sm leading-relaxed opacity-85">Bringing joy to every child — trusted by families across Pakistan. Toys for every age, occasion and budget, delivered to your doorstep.</p>
