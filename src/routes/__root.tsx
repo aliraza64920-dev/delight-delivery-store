@@ -15,7 +15,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { syncWishlist } from "@/lib/cart";
 import { Header, Footer, WhatsAppFloat } from "@/components/store/SiteChrome";
-import { NewsletterBand } from "@/components/store/NewsletterBand";
 import { TopTicker, TrustMarquee } from "@/components/store/MarqueeBanner";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -112,7 +111,6 @@ function RootComponent() {
             <Outlet />
           </main>
           <TrustMarquee />
-          <NewsletterBand />
           <Footer />
           <WhatsAppFloat />
           <Toaster position="top-center" richColors />
