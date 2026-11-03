@@ -8,7 +8,6 @@ import { configQuery } from "@/lib/queries";
 import { waLink } from "@/lib/format";
 import logoAsset from "@/assets/playtown-logo.png.asset.json";
 import { WhatsAppIcon } from "./WhatsAppIcon";
-import { NewsletterSignup } from "./NewsletterSignup";
 import { InstagramIcon, TikTokIcon } from "./SocialIcons";
 
 export const SOCIALS = [
@@ -136,7 +135,7 @@ function Badge({ n }: { n: number }) {
 export function Footer() {
   return (
     <footer className="mt-10 bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.9fr_1.1fr_0.95fr]">
+      <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1.15fr_1fr]">
         <div>
           <Link to="/" aria-label="Play Town home"><img src={logoAsset.url} alt="Play Town" className="h-28 w-48 object-contain" /></Link>
           <p className="mt-2 text-sm leading-relaxed opacity-85">Bringing joy to every child — trusted by families across Pakistan. Toys for every age, occasion and budget, delivered to your doorstep.</p>
@@ -190,7 +189,6 @@ export function Footer() {
             { l: "Terms of Service", to: "/terms" },
           ]}
         />
-        <NewsletterSignup />
       </div>
       <div className="border-t border-primary-foreground/10 py-4 text-center text-xs opacity-70">© {new Date().getFullYear()} Play Town. All rights reserved.</div>
     </footer>
