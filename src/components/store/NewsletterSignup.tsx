@@ -33,8 +33,8 @@ export function NewsletterSignup() {
   };
 
   return (
-    <div className="sm:col-span-2 lg:col-span-3 lg:col-start-2">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+    <div className="sm:col-span-2 lg:col-span-4 lg:-mt-5">
+      <div className="flex flex-col items-center gap-5 text-center lg:flex-row lg:justify-center lg:gap-12 lg:text-left">
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider">Newsletter</h3>
           <p className="mt-1.5 max-w-md text-sm leading-relaxed opacity-85">
