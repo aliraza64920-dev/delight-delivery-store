@@ -26,7 +26,7 @@ const NAV = [
 export function Header() {
   const { count } = useCart();
   const wish = useWishlist();
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -50,7 +50,6 @@ export function Header() {
           {NAV.map((n) => (
             <li key={n.label}><Link to={n.to} search={n.search as never} className="opacity-85 hover:opacity-100">{n.label}</Link></li>
           ))}
-          <li><Link to="/admin" className="text-hotpink">{isAdmin ? "Admin" : "Admin Panel"}</Link></li>
         </ul>
         <div className="flex shrink-0 items-center gap-0 sm:gap-1">
           <div className="mr-1 hidden items-center sm:flex">
@@ -112,7 +111,6 @@ export function Header() {
                 ))}
               </div>
             </li>
-            <li><Link to="/admin" onClick={() => setOpen(false)} className="block py-3 text-hotpink">Admin Panel</Link></li>
             <li>{user
               ? <Link to="/account" onClick={() => setOpen(false)} className="block py-3">My Account</Link>
               : <Link to="/auth" search={{ redirect: "/admin" } as never} onClick={() => setOpen(false)} className="block py-3">Sign In</Link>}</li>
