@@ -61,7 +61,7 @@ function AdminProducts() {
   const toggleMut = useMutation({
     mutationFn: (p: Row) => toggle({ data: { id: p.id, active: !p.is_active } }),
     onSuccess: (r, p) => {
-      if (!r.ok) return toast.error(r.error);
+      if (!r.ok) { toast.error(r.error); return; }
       toast.success(
         p.is_active
           ? `Deactivated. Hidden from shop${r.orderCount ? `; ${r.orderCount} past order line(s) kept intact` : ""}.`
@@ -171,7 +171,7 @@ function ProductForm({ product, categories, onClose }: { product: Row | null; ca
       return save({ data: { id: product?.id ?? null, product: { name: f.name, sku: f.sku, description: f.description, category: f.category, subcategory: f.subcategory || null, brand: f.brand, age_range: f.age_range, price, sale_price: sale, stock_quantity: stock, low_stock_threshold: low, images } } });
     },
     onSuccess: (r) => {
-      if (!r.ok) return setErr(r.error);
+      if (!r.ok) { setErr(r.error); return; }
       toast.success(product ? "Product updated." : "Product added.");
       qc.invalidateQueries({ queryKey: ["admin-products"] });
       onClose();
@@ -183,7 +183,7 @@ function ProductForm({ product, categories, onClose }: { product: Row | null; ca
     try { new URL(newImg.trim()); } catch { return setErr("Enter a valid image URL (https://…)."); }
     setImages([...images, newImg.trim()]); setNewImg(""); setErr(null);
   };
-  const move = (i: number, d: number) => { const n = [...images]; [n[i], n[i + d]] = [n[i + d], n[i]]; setImages(n); };
+  const move = (i: number, d: number) => { const n = [...images]; const t = n[i]!; n[i] = n[i + d]!; n[i + d] = t; setImages(n); };
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-foreground/40 p-3 sm:p-8" role="dialog" aria-modal="true" aria-label={product ? "Edit product" : "Add product"}>
