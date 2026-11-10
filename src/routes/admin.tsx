@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, Package } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/admin")({
@@ -44,6 +44,7 @@ function AdminLayout() {
         <h1 className="mr-4 text-xl font-bold">Store Admin</h1>
         <Link to="/admin" activeOptions={{ exact: true }} className={cls} activeProps={{ className: "bg-primary text-primary-foreground" }}><LayoutDashboard className="h-4 w-4" />Dashboard</Link>
         <Link to="/admin/orders" className={cls} activeProps={{ className: "bg-primary text-primary-foreground" }}><Package className="h-4 w-4" />Orders</Link>
+        <Link to="/admin/products" className={cls} activeProps={{ className: "bg-primary text-primary-foreground" }}><ShoppingBag className="h-4 w-4" />Products</Link>
       </nav>
       <Outlet />
     </div>

@@ -28,6 +28,7 @@ import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminOrdersOrderNumberRouteImport } from './routes/admin.orders.$orderNumber'
+import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img/$'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -126,6 +127,11 @@ const AdminOrdersOrderNumberRoute = AdminOrdersOrderNumberRouteImport.update({
   path: '/orders/$orderNumber',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
   id: '/api/public/img/$',
   path: '/api/public/img/$',
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/checkout/': typeof CheckoutIndexRoute
   '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutIndexRoute
   '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
+  '/admin/products': typeof AdminProductsIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -204,6 +212,7 @@ export interface FileRoutesById {
   '/checkout/': typeof CheckoutIndexRoute
   '/admin/orders/$orderNumber': typeof AdminOrdersOrderNumberRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
+  '/admin/products/': typeof AdminProductsIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -229,6 +238,7 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/admin/orders/$orderNumber'
     | '/admin/orders/'
+    | '/admin/products/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/admin/orders/$orderNumber'
     | '/admin/orders'
+    | '/admin/products'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   id:
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/checkout/'
     | '/admin/orders/$orderNumber'
     | '/admin/orders/'
+    | '/admin/products/'
     | '/api/public/img/$'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -434,6 +446,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersOrderNumberRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/products/': {
+      id: '/admin/products/'
+      path: '/products'
+      fullPath: '/admin/products/'
+      preLoaderRoute: typeof AdminProductsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/public/img/$': {
       id: '/api/public/img/$'
       path: '/api/public/img/$'
@@ -455,12 +474,14 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminOrdersOrderNumberRoute: typeof AdminOrdersOrderNumberRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
+  AdminProductsIndexRoute: typeof AdminProductsIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminOrdersOrderNumberRoute: AdminOrdersOrderNumberRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
+  AdminProductsIndexRoute: AdminProductsIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
