@@ -24,7 +24,7 @@ export function stockState(qty: number, threshold: number): StockState {
 const STOCK_LABEL: Record<StockState, string> = { in: "In Stock", low: "Low Stock", out: "Out of Stock" };
 const STOCK_CLS: Record<StockState, string> = {
   in: "bg-success/15 text-success",
-  low: "bg-warning/20 text-warning-foreground",
+  low: "bg-warning/20 text-warning",
   out: "bg-destructive/15 text-destructive",
 };
 const rs = (n: number) => `Rs. ${Number(n).toLocaleString("en-PK")}`;
