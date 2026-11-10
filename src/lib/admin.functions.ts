@@ -122,3 +122,62 @@ export const getDashboardStats = createServerFn({ method: "POST" })
     }
     return { total: list.length, by, codPending, revenue };
   });
+
+// ---------- Products management (admin only) ----------
+const productInput = z.object({
+  name: z.string().trim().min(1).max(200),
+  sku: z.string().trim().min(1).max(60),
+  description: z.string().max(20000),
+  category: z.string().trim().min(1).max(100),
+  subcategory: z.string().trim().max(100).nullable(),
+  brand: z.string().trim().min(1).max(100),
+  age_range: z.string().trim().min(1).max(50),
+  price: z.number().positive().max(10_000_000),
+  sale_price: z.number().positive().max(10_000_000).nullable(),
+  stock_quantity: z.number().int().min(0).max(1_000_000),
+  low_stock_threshold: z.number().int().min(0).max(100_000),
+  images: z.array(z.string().trim().url().max(2000)).max(20),
+}).refine((p) => p.sale_price == null || p.sale_price < p.price, { message: "Sale price must be lower than price" });
+
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "product";
+
+export const listAdminProducts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const db = await adminDb(context as unknown as Ctx);
+    const { data, error } = await db.from("products").select("id,slug,name,sku,description,category,subcategory,brand,age_range,price,sale_price,stock_quantity,low_stock_threshold,images,is_active,updated_at").order("created_at", { ascending: false });
+    if (error) throw new Error("Could not load products");
+    return data ?? [];
+  });
+
+export const saveAdminProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid().nullable(), product: productInput }).parse(d))
+  .handler(async ({ data, context }) => {
+    const db = await adminDb(context as unknown as Ctx);
+    const p = { ...data.product, subcategory: data.product.subcategory || null, updated_at: new Date().toISOString() };
+    const { data: dup } = await db.from("products").select("id").eq("sku", p.sku).neq("id", data.id ?? "00000000-0000-0000-0000-000000000000").limit(1);
+    if (dup && dup.length) return { ok: false, error: "Another product already uses this SKU." };
+    if (data.id) {
+      const { error } = await db.from("products").update(p).eq("id", data.id);
+      if (error) return { ok: false, error: "Could not save product." };
+      return { ok: true, error: null };
+    }
+    let slug = slugify(p.name);
+    const { data: taken } = await db.from("products").select("id").eq("slug", slug).limit(1);
+    if (taken && taken.length) slug = `${slug}-${Date.now().toString(36)}`;
+    const { error } = await db.from("products").insert({ ...p, slug });
+    if (error) return { ok: false, error: "Could not create product." };
+    return { ok: true, error: null };
+  });
+
+export const setProductActive = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid(), active: z.boolean() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const db = await adminDb(context as unknown as Ctx);
+    const { count } = await db.from("order_items").select("id", { count: "exact", head: true }).eq("product_id", data.id);
+    const { error } = await db.from("products").update({ is_active: data.active, updated_at: new Date().toISOString() }).eq("id", data.id);
+    if (error) return { ok: false, error: "Could not update product.", orderCount: count ?? 0 };
+    return { ok: true, error: null, orderCount: count ?? 0 };
+  });
