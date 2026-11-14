@@ -57,13 +57,14 @@ function OrdersPage() {
           <div className="hidden overflow-x-auto rounded-2xl border md:block">
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left text-xs uppercase text-muted-foreground">
-                <tr>{["Order ID", "Customer", "Email", "Phone", "Total", "Payment", "Date", "Status", "Payment status", ""].map((h) => <th key={h} className="px-3 py-3">{h}</th>)}</tr>
+                <tr>{["Order ID", "Customer", "Email", "Phone", "Total", "Payment", "Date", "Status", "Payment status", "Actions"].map((h) => <th key={h} className="px-3 py-3">{h}</th>)}</tr>
               </thead>
               <tbody>
                 {data.map((o) => (
                   <tr key={o.id} className="border-t hover:bg-muted/30">
                     <td className="px-3 py-3 font-mono font-semibold">{o.order_number}</td>
                     <td className="px-3 py-3">{o.customer_name}</td>
+                    <td className="px-3 py-3 max-w-[220px] truncate" title={o.email || undefined}>{o.email || <span className="text-muted-foreground">—</span>}</td>
                     <td className="px-3 py-3">{o.phone}</td>
                     <td className="px-3 py-3 font-semibold">{formatRs(Number(o.total))}</td>
                     <td className="px-3 py-3">{methodLabel(o.payment_method)}</td>

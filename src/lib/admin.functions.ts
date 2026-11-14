@@ -54,7 +54,7 @@ export const listAdminOrders = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const db = await adminDb(context as unknown as Ctx);
-    let q = db.from("orders").select("id,order_number,customer_name,phone,total,payment_method,payment_status,status,created_at").order("created_at", { ascending: false }).limit(500);
+    let q = db.from("orders").select("id,order_number,customer_name,email,phone,total,payment_method,payment_status,status,created_at").order("created_at", { ascending: false }).limit(500);
     if (data.status) q = q.eq("status", data.status);
     if (data.payment === "pending") q = q.in("payment_status", ["cod_pending", "awaiting_payment"]);
     else if (data.payment) q = q.eq("payment_status", data.payment);
